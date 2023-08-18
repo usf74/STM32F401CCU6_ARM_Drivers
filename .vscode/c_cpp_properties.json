@@ -3,7 +3,11 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/MCAL/GPIO",
+                "${workspaceFolder}/LIB",
+                "${workspaceFolder}/MCAL/SYSTICK",
+                "${workspaceFolder}/HAL/Buzzer"
             ],
             "defines": [
                 "_DEBUG",

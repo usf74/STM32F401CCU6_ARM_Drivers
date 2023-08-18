@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "std_types.h": "c"
+        "std_types.h": "c",
+        "gpio_interface.h": "c",
+        "rcc_interface.h": "c",
+        "stk_interface.h": "c",
+        "converge-diverge.h": "c",
+        "ping_pong.h": "c",
+        "S7_ProgrM.C": "cpp",
+        "S7_Program.C": "cpp"
     }
 }

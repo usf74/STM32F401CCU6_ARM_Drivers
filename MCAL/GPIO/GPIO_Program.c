@@ -1,11 +1,15 @@
-#include "../../LIB/std_types.h"
-#include "../../LIB/Bit_Math.h"
+#include "std_types.h"
+#include "Bit_Math.h"
+
+
 #include "GPIO_Private.h"
+
 #include "GPIO_Interface.h"
+
 #include "GPIO_Config.h"
 
 /**/
-void GPIO_voidSetPinMode(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode)
+void GPIO_voidSetPinMode(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode)
 {
     // ip validation
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8PinMode > ANALOG))
@@ -34,7 +38,7 @@ void GPIO_voidSetPinMode(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode)
     }
 }
 
-void GPIO_voidSetOutPutPinType(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode)
+void GPIO_voidSetOutPutPinType(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode)
 {
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8PinMode > OUTPUT_OD))
     {
@@ -51,7 +55,7 @@ void GPIO_voidSetOutPutPinType(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinMode
         break;
     }
 }
-void GPIO_voidSetPinSpeed(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinSpeed)
+void GPIO_voidSetPinSpeed(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinSpeed)
 {
     // ip validation
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8PinSpeed > HS))
@@ -76,7 +80,7 @@ void GPIO_voidSetPinSpeed(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PinSpeed)
     }
 }
 
-void GPIO_voidSetPuPdConfig(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PUPDType)
+void GPIO_voidSetPuPdConfig(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PUPDType)
 {
     // ip validation
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8PUPDType > INPUT_PULL_DOWN))
@@ -101,7 +105,7 @@ void GPIO_voidSetPuPdConfig(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8PUPDType)
     }
 }
 
-void GPIO_voidSetPinValue(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8Value)
+void GPIO_voidSetPinValue(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8Value)
 {
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8Value > OUTPUT_HIGH))
     {
@@ -119,7 +123,12 @@ void GPIO_voidSetPinValue(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8Value)
     }
 }
 
-void GPIO_voidSetPinValueAtomicAccess(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8SetRstType)
+void GPIO_voidToggleOutputPin(volatile GPIO_t *GPIOx, u8 Copy_u8PinID)
+{
+    TOGGLE_BIT(GPIOx->ODR,Copy_u8PinID);
+}
+
+void GPIO_voidSetPinValueAtomicAccess(volatile GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8SetRstType)
 {
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15) || (Copy_u8SetRstType > OUTPUT_RESET))
     {
@@ -137,7 +146,7 @@ void GPIO_voidSetPinValueAtomicAccess(GPIO_t *GPIOx, u8 Copy_u8PinID, u8 Copy_u8
     }
 }
 
-void GPIO_voidSetPortValue(GPIO_t *GPIOx, u32 Copy_u32Value)
+void GPIO_voidSetPortValue(volatile GPIO_t *GPIOx, u32 Copy_u32Value)
 {
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)))
     {
@@ -145,7 +154,7 @@ void GPIO_voidSetPortValue(GPIO_t *GPIOx, u32 Copy_u32Value)
     }
     GPIOx->ODR = Copy_u32Value;
 }
-u8 GPIO_u8GetPinValue(GPIO_t *GPIOx, u8 Copy_u8PinID)
+u8 GPIO_u8GetPinValue(volatile GPIO_t *GPIOx, u8 Copy_u8PinID)
 {
     if (!((GPIOx == GPIOA) || (GPIOx == GPIOB) || (GPIOx == GPIOC)) || (Copy_u8PinID > Pin15))
     {

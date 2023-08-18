@@ -1,3 +1,8 @@
 # ARM coretx M4 MCU drivers
-Contains RCC and GPIO <br />
-PLL to be implemented
+# Contains <br />
+MCAL: RCC - GPIO - Systick  <br />
+HAL: 7segment - Buzzer - LEDS <br />
+# To be implemented <br />
+PLL - Timers
+# Misc <br />
+Trivial LED patterns in APP folder

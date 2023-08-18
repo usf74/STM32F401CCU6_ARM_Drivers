@@ -1,6 +1,6 @@
 
-#include "../../LIB/std_types.h"
-#include "../../LIB/Bit_Math.h"
+#include "std_types.h"
+#include "Bit_Math.h"
 #include "RCC_Interface.h"
 #include "RCC_Private.h"
 #include "RCC_Config.h"
