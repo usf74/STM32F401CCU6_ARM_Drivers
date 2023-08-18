@@ -4,5 +4,4 @@ MCAL: RCC - GPIO - Systick  <br />
 HAL: 7segment - Buzzer - LEDS <br />
 # To be implemented <br />
 PLL - Timers
-# Misc <br />
-Trivial LED patterns in APP folder
+
