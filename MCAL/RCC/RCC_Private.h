@@ -20,8 +20,12 @@
 
 #define HSION 0
 #define HSEON 16
+#define PLLON 24
 #define SW0 0
 #define SW1 1
+
+
+#define PLLSRC 22 //RCC PLL CFG Register bit num
 
 #define NOT_BYPASSED 0
 #define BYPASSED 1

@@ -2,11 +2,11 @@
 #define __STK_CONFIG_H__
 
 
-#define CLK 2  //in MHZ
-
 #define STK_CLK AHB_CLK_DIV_8
 
 
+
+#define CLK ((f32)42)/8  //in MHZ
 
 
 

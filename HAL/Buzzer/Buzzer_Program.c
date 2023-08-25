@@ -16,31 +16,15 @@ void Buzzer_voidInit()
     GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_RESET);
 }
 
-void Buzzer_voidSetMode(u8 Copy_u8BuzzerSet)
-{
-    switch (Copy_u8BuzzerSet)
-    {
-    case BUZZER_ON:
-        GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_SET);
-        break;
-    case BUZZER_OFF:
-        GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_RESET);
-        break;
-
-    default:
-
-        break;
-    }
-}
 
 void Buzzer_voidBeepNTimes(u8 Copy_u8NTimes, u32 Copy_u8Delayus)
 {
     GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_RESET);
     for (u8 i = 0; i < Copy_u8NTimes; i++)
     {
-        GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_SET);
+        BUZZER_voidON();
         STK_voidDelay_us(Copy_u8Delayus);
-        GPIO_voidSetPinValueAtomicAccess(BUZZER_PORT, BUZZER_PIN, OUTPUT_RESET);
+        BUZZER_voidOFF();
         STK_voidDelay_us(Copy_u8Delayus);
     }
 }

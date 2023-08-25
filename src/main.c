@@ -6,38 +6,39 @@
 #include "GPIO_Interface.h"
 #include "STK_Interface.h"
 
-#include "S7_Interface.h"
-#include "Buzzer_Interface.h"
+#include "RCC_Private.h"
 
+#define NORMAL_DELAY 500000 // 300ms
 
 int main()
 {
 
     RCC_VoidInitSysClk();
     RCC_voidEnablePerClk(AHB1, 0);
-    RCC_voidEnablePerClk(AHB1, 1);
+
     // Initialize pins
-    /* for (u8 pin = Pin0; pin <= Pin7; pin++)
-     {
-         GPIO_voidSetPinMode(GPIOA, pin, OUTPUT);
-         GPIO_voidSetOutPutPinType(GPIOA, pin, OUTPUT_PP);
-         GPIO_voidSetPinSpeed(GPIOA, pin, LS);
-         GPIO_voidSetPinValueAtomicAccess(GPIOA, pin, OUTPUT_RESET);
-     }*/
+    for (u8 PinI = 0; PinI <= Pin7; PinI++)
+    {
+        GPIO_voidSetPinMode(GPIOA, PinI, OUTPUT);
+        GPIO_voidSetOutPutPinType(GPIOA, PinI, OUTPUT_PP);
+        GPIO_voidSetPinSpeed(GPIOA, PinI, LS);
+        GPIO_voidSetPinValueAtomicAccess(GPIOA, PinI, OUTPUT_RESET);
+    }
 
-    S7_voidInit();
-    u8 Numba = 0;
-    Buzzer_voidInit();
-    Buzzer_voidBeepNTimes(3,1000000);
-
-    //---------------------------------------------super loop----------------------------------------------------------------
+    //---------------------------------------------super loop----------------------------------------------------------------//
     while (1)
     {
-        for (u8 i = 0; i <= 99; i++, Numba++)
-        {
-            S7_voidDisplayInt(Numba);
-            STK_voidDelay_us(500000);
-        }
+        GPIO_voidSetPinValue(GPIOA, Pin0, GET_BIT(RCC_CFGR, 2));
+        GPIO_voidSetPinValue(GPIOA, Pin1, GET_BIT(RCC_CFGR, 3));
+        // GPIO_voidSetPinValue(GPIOA, Pin2, GET_BIT(RCC_PLLCFGR, 11));
+        // GPIO_voidSetPinValue(GPIOA, Pin3, GET_BIT(RCC_PLLCFGR, 6));
+        // GPIO_voidSetPinValue(GPIOA, Pin4, GET_BIT(RCC_PLLCFGR,7));
+        // GPIO_voidSetPinValue(GPIOA, Pin5, GET_BIT(RCC_PLLCFGR, 8));
+
+        GPIO_voidSetPinValueAtomicAccess(GPIOA, Pin7, OUTPUT_SET);
+        STK_voidDelay_us(NORMAL_DELAY);
+        GPIO_voidSetPinValueAtomicAccess(GPIOA, Pin7, OUTPUT_RESET);
+        STK_voidDelay_us(NORMAL_DELAY);
     }
 
     return 1;

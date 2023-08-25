@@ -7,6 +7,7 @@
 
 void RCC_VoidInitSysClk()
 {
+    SET_BIT(RCC_CFGR,7);    //AHB1 PRESCALE to 2
 #if SYS_CLK_SRC == HSI
     SET_BIT(RCC_CR, HSION);
 
@@ -14,17 +15,47 @@ void RCC_VoidInitSysClk()
     CLEAR_BIT(RCC_CFGR, SW1);
 
 #elif SYS_CLK_SRC == HSE
-    SET_BIT(RCC_CR, HSEON);
+    SET_BIT(RCC_CR, HSEON);     //Turn on
+    while (!GET_BIT(RCC_CR, 17));    //Wait ready
 
+#if BYPASS_MODE == NOTPYBASSED
+    CLEAR_BIT(RCC_CR, 18);
+#elif BYPASS_MODE == PYBASSED
+    SET_BIT(RCC_CR, 18);
+#endif
+    //Switch source
     SET_BIT(RCC_CFGR, SW0);
     CLEAR_BIT(RCC_CFGR, SW1);
-    #if BYPASS_MODE == NOTPYBASSED
-        CLR_BIT(RCC_CR, 18);
-    #elif BYPASS_MODE == PYBASSED
-        SET_BIT(RCC_CR, 18);
-    #endif
+
+
 #elif SYS_CLK_SRC == PLL
-    /*To be implemented*/
+
+#if PLL_SOURCE == HSI
+    CLEAR_BIT(RCC_PLLCFGR, PLLSRC);
+#elif PLL_SOURCE == HSE
+    SET_BIT(RCC_CR, HSEON);
+    while (!GET_BIT(RCC_CR, 17));    //Wait ready
+    SET_BIT(RCC_PLLCFGR, PLLSRC);
+#if BYPASS_MODE == NOTPYBASSED
+    CLEAR_BIT(RCC_CR, 18);
+#elif BYPASS_MODE == PYBASSED
+    SET_BIT(RCC_CR, 18);
+#endif
+#else
+#error "Invalid PLL_CLK_SRC Configuration"
+#endif
+
+#if (((PLLP == 2) || (PLLP == 4) || (PLLP == 6) || (PLLP == 8)) && ((PLLN <= 432) || (PLLN >= 192)) && ((PLLM <= 63) || (PLLM >= 2)))   // i/p validation
+
+    RCC_PLLCFGR = (RCC_PLLCFGR & 0xFFFC8000) | ((PLLP / 2 - 1) << 16) | (PLLN << 6) | PLLM;        /* ?????*/
+
+#else
+#error "Invalid PLL_CLK_SRC Symbol boundary"
+#endif
+    SET_BIT(RCC_CR, PLLON);
+    while (!GET_BIT(RCC_CR,25));
+    CLEAR_BIT(RCC_CFGR, SW0);
+    SET_BIT(RCC_CFGR, SW1);
 
 #else
 #error "Invalid SYS_CLK_SRC Configuration"

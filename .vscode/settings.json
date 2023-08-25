@@ -7,6 +7,7 @@
         "converge-diverge.h": "c",
         "ping_pong.h": "c",
         "S7_ProgrM.C": "cpp",
-        "S7_Program.C": "cpp"
+        "S7_Program.C": "cpp",
+        "led_config.h": "c"
     }
 }

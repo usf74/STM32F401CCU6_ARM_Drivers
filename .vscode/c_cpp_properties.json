@@ -7,7 +7,10 @@
                 "${workspaceFolder}/MCAL/GPIO",
                 "${workspaceFolder}/LIB",
                 "${workspaceFolder}/MCAL/SYSTICK",
-                "${workspaceFolder}/HAL/Buzzer"
+                "${workspaceFolder}/HAL/Buzzer",
+                "${workspaceFolder}/HAL/LEDS",
+                "${workspaceFolder}/HAL/LED",
+                "${workspaceFolder}/HAL/S7"
             ],
             "defines": [
                 "_DEBUG",
